@@ -47,11 +47,3 @@ export const AddCartIcon = styled.img`
   width: 16px;
   height: 16px;
 `;
-
-export const CartItemQuantityControls = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-`;

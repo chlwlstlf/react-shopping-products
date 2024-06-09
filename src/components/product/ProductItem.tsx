@@ -1,4 +1,5 @@
 import { Button } from '../common';
+import QuantityContainer from './QuantityContainer';
 import useFetchCartItems from '../../hooks/useCartItems/useFetchCartItems';
 import useMutateCartItems from '../../hooks/useCartItems/useMutateCartItems';
 import { Product } from '../../types/Product.type';
@@ -6,8 +7,6 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import * as S from './ProductItem.style';
 
 import AddCart from '../../assets/AddCart.svg';
-import MinusIcon from '../../assets/MinusIcon.svg';
-import PlusIcon from '../../assets/PlusIcon.svg';
 
 interface ProductItemProps {
   product: Product;
@@ -45,15 +44,11 @@ const ProductItem = ({ product }: ProductItemProps) => {
 
         <S.CartButtonContainer>
           {isAdded ? (
-            <S.CartItemQuantityControls>
-              <Button variant="secondary" size="small" onClick={handleDecreaseQuantity}>
-                <img src={MinusIcon} alt="수량 감소" />
-              </Button>
-              <p>{cartItem.quantity}</p>
-              <Button variant="secondary" size="small" onClick={handleIncreaseQuantity}>
-                <img src={PlusIcon} alt="수량 증가" />
-              </Button>
-            </S.CartItemQuantityControls>
+            <QuantityContainer
+              quantity={cartItem.quantity}
+              onIncrease={handleIncreaseQuantity}
+              onDecrease={handleDecreaseQuantity}
+            />
           ) : (
             <Button size="medium" onClick={() => handleAddCartItem(product.id)}>
               <S.AddCartIcon src={AddCart} alt="장바구니 담기" />

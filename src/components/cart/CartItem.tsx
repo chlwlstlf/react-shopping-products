@@ -1,9 +1,8 @@
 import { Button, Splitter } from '../common';
+import QuantityContainer from '../product/QuantityContainer';
 import useMutateCartItems from '../../hooks/useCartItems/useMutateCartItems';
 import { CartItem } from '../../types/CartItem.type';
 import { formatCurrency } from '../../utils/formatCurrency';
-import MinusIcon from '../../assets/MinusIcon.svg';
-import PlusIcon from '../../assets/PlusIcon.svg';
 import * as S from './CartItem.style';
 
 interface CartItemProps {
@@ -12,6 +11,14 @@ interface CartItemProps {
 
 const CartItemInfo = ({ cartItem }: CartItemProps) => {
   const { handleDeleteCartItem, handleCartItemQuantity } = useMutateCartItems();
+
+  const handleDecreaseQuantity = () => {
+    handleCartItemQuantity(cartItem.id, Math.max(cartItem.quantity - 1, 1));
+  };
+
+  const handleIncreaseQuantity = () => {
+    handleCartItemQuantity(cartItem.id, cartItem.quantity + 1);
+  };
 
   return (
     <S.CartItemWrapper>
@@ -29,23 +36,11 @@ const CartItemInfo = ({ cartItem }: CartItemProps) => {
 
           <S.ProductPrice>{formatCurrency(cartItem.product.price)}</S.ProductPrice>
 
-          <S.CartItemQuantityControls>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => handleCartItemQuantity(cartItem.id, Math.max(cartItem.quantity - 1, 1))}
-            >
-              <img src={MinusIcon} alt="장바구니 1개 제거" />
-            </Button>
-            <p>{cartItem.quantity}</p>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => handleCartItemQuantity(cartItem.id, cartItem.quantity + 1)}
-            >
-              <img src={PlusIcon} alt="장바구니 1개 추가" />
-            </Button>
-          </S.CartItemQuantityControls>
+          <QuantityContainer
+            quantity={cartItem.quantity}
+            onIncrease={handleIncreaseQuantity}
+            onDecrease={handleDecreaseQuantity}
+          />
         </S.ProductDetails>
       </S.ProductInfo>
     </S.CartItemWrapper>
