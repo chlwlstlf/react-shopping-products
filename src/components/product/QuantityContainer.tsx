@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../common';
 import MinusIcon from '../../assets/MinusIcon.svg';
 import PlusIcon from '../../assets/PlusIcon.svg';
@@ -10,7 +9,7 @@ interface QuantityContainerProps {
   onDecrease: () => void;
 }
 
-const QuantityContainer: React.FC<QuantityContainerProps> = ({ quantity, onIncrease, onDecrease }) => {
+const QuantityContainer = ({ quantity, onIncrease, onDecrease }: QuantityContainerProps) => {
   return (
     <QuantityContainerContainer>
       <Button variant="secondary" size="small" onClick={onDecrease}>

@@ -26,12 +26,14 @@ const useMutateCartItems = (): UseMutateCartItemsResult => {
     mutationFn: (productId: number) => addCartItem(productId),
     onSuccess,
     onError: (error) => onError(error),
+    networkMode: 'always',
   });
 
   const deleteMutation = useMutation({
     mutationFn: (cartItemId: number) => deleteCartItem(cartItemId),
     onSuccess,
     onError: (error) => onError(error),
+    networkMode: 'always',
   });
 
   const updateMutation = useMutation({
@@ -39,6 +41,7 @@ const useMutateCartItems = (): UseMutateCartItemsResult => {
       updateCartItemQuantity(cartItemId, quantity),
     onSuccess,
     onError: (error) => onError(error),
+    networkMode: 'always',
   });
 
   const handleAddCartItem = (productId: number) => {
