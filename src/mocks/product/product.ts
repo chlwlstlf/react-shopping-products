@@ -1,19 +1,21 @@
 import { http, HttpResponse } from 'msw';
 import products from './products.json';
 import { Product } from '../../types/Product.type';
-import API_ENDPOINTS from '../../api/endpoints';
+import { API_ENDPOINTS } from '../../api/endpoints';
 
 const filterProducts = (products: Product[], category: string) => {
   return category === 'all' ? products : products.filter((product) => product.category === category);
 };
 
 const sortProducts = (products: Product[], sortOrder: string) => {
-  if (sortOrder === 'asc') return products.sort((prev, cur) => prev.price - cur.price);
+  if (sortOrder === 'asc') {
+    return products.sort((prev, cur) => prev.price - cur.price);
+  }
   return products.sort((prev, cur) => cur.price - prev.price);
 };
 
 export const handlers = [
-  http.get(`${API_ENDPOINTS.PRODUCT}`, ({ request }) => {
+  http.get(API_ENDPOINTS.PRODUCT, ({ request }) => {
     const url = new URL(request.url);
 
     const page = Number(url.searchParams.get('page') || '0');

@@ -1,40 +1,37 @@
-import TitleContainer from '../../components/TitleContainer/TitleContainer';
-import Dropdown from '../../components/Dropdown/Dropdown';
-import Header from '../../components/Header/Header';
-import FloatingButton from '../../components/FloatingButton/FloatingButton';
-import ProductItem from '../../components/ProductItem/ProductItem';
+import Layout from '../../components/Layout/Layout';
+import CartModal from '../../components/cart/CartModal';
+import ProductHeader from '../../components/product/ProductHeader';
+import ProductItem from '../../components/product/ProductItem';
+import { Dropdown, FloatingButton, LoadingSpinner } from '../../components/common';
 
-import useProducts from '../../hooks/useProducts/useProducts';
-import useCartItems from '../../hooks/useCartItems/useCartItems';
+import useFetchProducts from '../../hooks/useProducts/useFetchProducts';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import useFilterAndSort from '../../hooks/useFilterAndSort';
+import useModal from '../../hooks/useModal';
 
 import { CATEGORY_LIST, SORTING_LIST } from '../../constants/optionList';
-import { SIZE } from '../../constants/api';
 import * as S from './ProductListPage.style';
 
-import CartIcon from '../../assets/CartIcon.svg';
 import EmptyCart from '../../assets/EmptyCart.png';
-import Loading from '../../assets/loading.gif';
 
 const ProductListPage = () => {
   const { category, sort, handleCategory, handleSort } = useFilterAndSort();
-  const { products, loading, error, isLast, handlePage } = useProducts(category, sort);
-  const { cartItems, handleAddCartItem, handleDeleteCartItem } = useCartItems();
+  const { products, loading, status, isLast, handlePage } = useFetchProducts(category, sort);
+  const { isOpen, handleOpen, handleClose } = useModal();
   const targetRef = useIntersectionObserver(handlePage);
 
-  const isAddPageAble = !error && !isLast;
+  const isAddPageAble = status !== 'error' && !isLast;
 
   return (
-    <>
-      <Header>
-        <S.CartIconWrapper>
-          <img src={CartIcon} alt="장바구니 아이콘" />
-          <S.CartNumber>{cartItems.length <= SIZE.DEFAULT ? cartItems.length : `${SIZE.DEFAULT}+`}</S.CartNumber>
-        </S.CartIconWrapper>
-      </Header>
-      <S.Layout>
-        <TitleContainer title="텐파의 쇼핑몰" />
+    <Layout>
+      <CartModal isOpen={isOpen} onClose={handleClose} />
+
+      <Layout.Header>
+        <ProductHeader onOpen={handleOpen} />
+      </Layout.Header>
+
+      <Layout.Content>
+        <Layout.Title mainTitle="텐파의 쇼핑몰" />
 
         <S.DropdownContainer>
           <Dropdown options={CATEGORY_LIST} selectedOption={category} updateOption={handleCategory} />
@@ -44,13 +41,7 @@ const ProductListPage = () => {
         {products.length > 0 ? (
           <S.ProductList>
             {products.map((product, index) => (
-              <ProductItem
-                key={`${product.id}-${index}`}
-                product={product}
-                isAdded={cartItems.some((item) => item.product.id === product.id)}
-                onAddCartItem={handleAddCartItem}
-                onDeleteCartItem={handleDeleteCartItem}
-              />
+              <ProductItem key={`${product.id}-${index}`} product={product} />
             ))}
           </S.ProductList>
         ) : (
@@ -60,14 +51,11 @@ const ProductListPage = () => {
           </S.EmptyProductContainer>
         )}
 
-        {isAddPageAble && (
-          <S.LoadingWrapper ref={targetRef}>
-            {loading && <S.LoadingSpinner src={Loading} alt="로딩 스피너" />}
-          </S.LoadingWrapper>
-        )}
-      </S.Layout>
+        {isAddPageAble && <S.LoadingWrapper ref={targetRef}>{loading && <LoadingSpinner />}</S.LoadingWrapper>}
+      </Layout.Content>
+
       <FloatingButton />
-    </>
+    </Layout>
   );
 };
 

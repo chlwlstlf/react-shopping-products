@@ -1,8 +1,8 @@
 import apiClient from './apiClient';
-import { Product } from '../types/Product.type';
 import { SIZE } from '../constants/api';
+import { API_ENDPOINTS } from './endpoints';
+import { Product } from '../types/Product.type';
 import { ERROR_MESSAGES } from '../constants/message';
-import API_ENDPOINTS from './endpoints';
 
 interface ProductApi {
   data: Product[];

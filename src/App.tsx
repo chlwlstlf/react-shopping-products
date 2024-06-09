@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ProductListPage from './pages/ProductListPage/ProductListPage';
 import ToastProvider from './context/ToastProvider';
 
@@ -7,6 +8,8 @@ import GlobalStyles from './styles/Global.style';
 import theme from './styles/theme';
 
 function App() {
+  const queryClient = new QueryClient();
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -15,12 +18,14 @@ function App() {
   ]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <ToastProvider>
-        <RouterProvider router={router} />
-      </ToastProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

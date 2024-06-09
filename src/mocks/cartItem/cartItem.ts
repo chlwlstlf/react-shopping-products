@@ -3,7 +3,7 @@ import products from '../product/products.json';
 import cartItemsData from '../cartItem/cartItem.json';
 import { CartItem } from '../../types/CartItem.type';
 import { Product } from '../../types/Product.type';
-import API_ENDPOINTS from '../../api/endpoints';
+import { API_ENDPOINTS } from '../../api/endpoints';
 
 let cartItems: CartItem[] = cartItemsData;
 

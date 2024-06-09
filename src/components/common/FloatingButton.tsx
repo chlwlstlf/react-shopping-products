@@ -1,4 +1,20 @@
 import styled, { keyframes } from 'styled-components';
+import { Z_INDEX } from '../../constants/zIndex';
+import UpIcon from '../../assets/UpIconWhite.svg';
+
+const FloatingButton = () => {
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <StyledFloatingButton type="button" onClick={goToTop}>
+      <img src={UpIcon} alt="위로 스크롤" />
+    </StyledFloatingButton>
+  );
+};
+
+export default FloatingButton;
 
 const jump = keyframes`
   0% {
@@ -12,14 +28,14 @@ const jump = keyframes`
   }
 `;
 
-export const Layout = styled.button`
+const StyledFloatingButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
   right: 30px;
   bottom: 20px;
-  z-index: 999;
+  z-index: ${Z_INDEX.CLICKABLE};
   width: 50px;
   height: 50px;
   background-color: black;

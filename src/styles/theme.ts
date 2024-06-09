@@ -1,5 +1,6 @@
 const color = {
   primary: {
+    white: 'white',
     light: 'lightgrey',
     semiLight: 'grey',
     main: 'black',

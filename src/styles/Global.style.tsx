@@ -25,12 +25,6 @@ const GlobalStyles = createGlobalStyle`
         text-size-adjust: none;
     }
 
-    /* Ensure the html, body, and root elements take up full height */
-    html, body, #root {
-        width: 100vw;
-        margin: 0;
-        padding: 0;
-    }
 
     /* Reapply the pointer cursor for anchor tags */
     a,
