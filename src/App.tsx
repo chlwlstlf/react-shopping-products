@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ProductListPage from './pages/ProductListPage/ProductListPage';
+import ToastProvider from './context/ToastProvider';
+
+import { ThemeProvider } from 'styled-components';
+import GlobalStyles from './styles/Global.style';
+import theme from './styles/theme';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <ProductListPage />,
+    },
+  ]);
 
   return (
-    <>
-      <h1>React Shopping Products</h1>
-    </>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 
