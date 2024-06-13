@@ -1,11 +1,9 @@
-import { useContext, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../../api/product';
 import { PAGE_INTERVAL, SIZE } from '../../constants/api';
 import { QUERY_KEYS } from '../../api/queryKeys';
 import { Product } from '../../types/Product.type';
 import { Option } from '../../types/Option.type';
-import { ToastContext } from '../../context/ToastProvider';
 
 interface UseFetchProductsResult {
   products: Product[];
@@ -26,9 +24,7 @@ const getProducts = async ({ pageParam, category, sort }: { pageParam: number; c
 };
 
 const useFetchProducts = (category: Option, sort: Option): UseFetchProductsResult => {
-  const { showToast } = useContext(ToastContext);
-
-  const { data, error, status, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery({
+  const { data, status, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [QUERY_KEYS.PRODUCTS, category, sort],
     queryFn: ({ pageParam }) => getProducts({ pageParam, category, sort }),
     initialPageParam: 0,
@@ -38,12 +34,6 @@ const useFetchProducts = (category: Option, sort: Option): UseFetchProductsResul
   });
 
   const products = data?.pages.flatMap((page) => page.data) || [];
-
-  useEffect(() => {
-    if (status === 'error' && error) {
-      showToast((error as Error).message);
-    }
-  }, [status, error]);
 
   const handlePage = () => {
     if (hasNextPage && !isFetchingNextPage) {

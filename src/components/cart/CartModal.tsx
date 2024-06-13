@@ -1,5 +1,5 @@
 import { Modal } from 'chlwlstlf-modal';
-import CartItem from './CartItem';
+import CartListItem from './CartListItem';
 import { Button, Splitter } from '../common';
 import useFetchCartItems from '../../hooks/useCartItems/useFetchCartItems';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -27,7 +27,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
         {cartItems.length > 0 ? (
           <S.CartItemContainer>
             {cartItems.map((item) => (
-              <CartItem key={item.id} cartItem={item} />
+              <CartListItem key={item.id} cartItem={item} />
             ))}
           </S.CartItemContainer>
         ) : (

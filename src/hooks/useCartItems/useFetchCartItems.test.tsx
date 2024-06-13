@@ -1,20 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { server } from '../../mocks/server';
 import { HttpResponse, http } from 'msw';
 
 import useFetchCartItems from './useFetchCartItems';
 import { API_ENDPOINTS } from '../../api/endpoints';
-import ToastProvider from '../../context/ToastProvider';
-
-const createWrapper =
-  () =>
-  ({ children }: { children: React.ReactNode }) =>
-    (
-      <QueryClientProvider client={new QueryClient()}>
-        <ToastProvider>{children}</ToastProvider>
-      </QueryClientProvider>
-    );
+import { createWrapper } from '../../utils/testUtils';
 
 describe('useFetchCartItems', () => {
   describe('장바구니 아이템 조회', () => {

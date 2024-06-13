@@ -1,22 +1,12 @@
 import { server } from '../../mocks/server';
 import { http, HttpResponse } from 'msw';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import useFetchProducts from './useFetchProducts';
 import { CATEGORY_LIST, SORTING_LIST } from '../../constants/optionList';
 import { API_ENDPOINTS } from '../../api/endpoints';
 import { SIZE } from '../../constants/api';
-import ToastProvider from '../../context/ToastProvider';
-
-const createWrapper =
-  () =>
-  ({ children }: { children: React.ReactNode }) =>
-    (
-      <QueryClientProvider client={new QueryClient()}>
-        <ToastProvider>{children}</ToastProvider>
-      </QueryClientProvider>
-    );
+import { createWrapper } from '../../utils/testUtils';
 
 describe('useFetchProducts', () => {
   describe('상품 목록 조회', () => {

@@ -1,19 +1,19 @@
 import { Button } from '../common';
 import QuantityContainer from './QuantityContainer';
-import useFetchCartItems from '../../hooks/useCartItems/useFetchCartItems';
 import useMutateCartItems from '../../hooks/useCartItems/useMutateCartItems';
 import { Product } from '../../types/Product.type';
 import { formatCurrency } from '../../utils/formatCurrency';
 import * as S from './ProductItem.style';
 
 import AddCart from '../../assets/AddCart.svg';
+import { CartItem } from '../../types/CartItem.type';
 
 interface ProductItemProps {
   product: Product;
+  cartItems: CartItem[];
 }
 
-const ProductItem = ({ product }: ProductItemProps) => {
-  const { cartItems } = useFetchCartItems();
+const ProductItem = ({ product, cartItems }: ProductItemProps) => {
   const { handleAddCartItem, handleDeleteCartItem, handleCartItemQuantity } = useMutateCartItems();
 
   const cartItem = cartItems.find((item) => item.product.id === product.id);

@@ -3,13 +3,13 @@ import QuantityContainer from '../product/QuantityContainer';
 import useMutateCartItems from '../../hooks/useCartItems/useMutateCartItems';
 import { CartItem } from '../../types/CartItem.type';
 import { formatCurrency } from '../../utils/formatCurrency';
-import * as S from './CartItem.style';
+import * as S from './CartListItem.style';
 
 interface CartItemProps {
   cartItem: CartItem;
 }
 
-const CartItemInfo = ({ cartItem }: CartItemProps) => {
+const CartListItem = ({ cartItem }: CartItemProps) => {
   const { handleDeleteCartItem, handleCartItemQuantity } = useMutateCartItems();
 
   const handleDecreaseQuantity = () => {
@@ -47,4 +47,4 @@ const CartItemInfo = ({ cartItem }: CartItemProps) => {
   );
 };
 
-export default CartItemInfo;
+export default CartListItem;

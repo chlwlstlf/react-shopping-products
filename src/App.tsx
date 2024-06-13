@@ -1,14 +1,23 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ProductListPage from './pages/ProductListPage/ProductListPage';
-import ToastProvider from './context/ToastProvider';
+import { ToastContext } from './context/ToastProvider';
 
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/Global.style';
 import theme from './styles/theme';
+import { useContext } from 'react';
 
 function App() {
-  const queryClient = new QueryClient();
+  const { showToast } = useContext(ToastContext);
+
+  const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error) => {
+        showToast(error.message);
+      },
+    }),
+  });
 
   const router = createBrowserRouter([
     {
@@ -21,9 +30,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <ToastProvider>
-          <RouterProvider router={router} />
-        </ToastProvider>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
   );
